@@ -7,3 +7,4 @@
 - Mysql
 - Redis
 - Spring
+- Linux
