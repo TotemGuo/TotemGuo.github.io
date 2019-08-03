@@ -15,6 +15,12 @@ java.lang.ClassLoader类的基本职责就是根据一个指定的类的名称�
 | 方法 | 说明 |  
 | ------ | ------ |  
 |j|2|
+|getParent()|返回该类加载器的父类加载器。|
+|loadClass(String name)|加载名称为 name的类，返回的结果是 java.lang.Class类的实例。|
+|findClass(String name)|查找名称为 name的类，返回的结果是 java.lang.Class类的实例。|
+|findLoadedClass(String name)|查找名称为 name的已经被加载过的类，返回的结果是 java.lang.Class类的实例。|
+|defineClass(String name, byte[] b, int off, int len)|把字节数组 b中的内容转换成 Java 类，返回的结果是 java.lang.Class类的实例。这个方法被声明为 final的。|
+|resolveClass(Class<?> c)|链接指定的 Java 类。|
 
 # 总结
 类加载器是 Java 语言的一个创新。它使得动态安装和更新软件组件成为可能。本文详细介绍了类加载器的相关话题，包括基本概念、代理模式、线程上下文类加载器、与 Web 容器和 OSGi 的关系等。开发人员在遇到 ClassNotFoundException和 NoClassDefFoundError等异常的时候，应该检查抛出异常的类的类加载器和当前线程的上下文类加载器，从中可以发现问题的所在。在开发自己的类加载器的时候，需要注意与已有的类加载器组织结构的协调。
