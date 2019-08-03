@@ -1,4 +1,4 @@
-<div style="text-align: right"> # 深入探讨Java类加载器 </div>
+# <div style="text-align: center"> 深入探讨Java类加载器 </div>
 
 原文：https://www.ibm.com/developerworks/cn/java/j-lo-classloader/index.html
 
