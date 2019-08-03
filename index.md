@@ -3,7 +3,7 @@
 
 # 文章分类
 
-- [Java](https://totemguo.github.io/java.html)
+- [<span style="color:blue">Java</span>](https://totemguo.github.io/java.html)
 - Mysql
 - Redis
 - Spring
