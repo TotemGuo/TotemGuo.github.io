@@ -67,6 +67,7 @@ Java 中的类加载器大致可以分成两类，一类是系统提供的，另
 ######  清单 2. 演示类加载器的树状组织结构的运行结果
      sun.misc.Launcher$AppClassLoader@9304b1 
      sun.misc.Launcher$ExtClassLoader@190d11
+
 如 代码清单 2所示，第一个输出的是 ClassLoaderTree类的类加载器，即系统类加载器。它是 sun.misc.Launcher$AppClassLoader类的实例；第二个输出的是扩展类加载器，是 sun.misc.Launcher$ExtClassLoader类的实例。需要注意的是这里并没有输出引导类加载器，这是由于有些 JDK 的实现对于父类加载器是引导类加载器的情况，getParent()方法返回 null。
 
 在了解了类加载器的树状组织结构之后，下面介绍类加载器的代理模式。
