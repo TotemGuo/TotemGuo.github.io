@@ -6,12 +6,12 @@
 
 Two actions can be ordered by a happens-before relationship. If one action happens-before another, then the first is visible to and ordered before the second.
 
-If we have two actions x and y, we write hb(x, y) to indicate that x happens-before y.
+If we have two actions x and y, we write *hb(x, y)* to indicate that x happens-before y.
 
-- If x and y are actions of the same thread and x comes before y in program order, then hb(x, y).
+- If x and y are actions of the same thread and x comes before y in program order, then *hb(x, y)*.
 
 - There is a happens-before edge from the end of a constructor of an object to the start of a finalizer (§12.6) for that object.
 
-- If an action x synchronizes-with a following action y, then we also have hb(x, y).
+- If an action x synchronizes-with a following action y, then we also have *hb(x, y)*.
 
-- If hb(x, y) and hb(y, z), then hb(x, z).
+- If *hb(x, y)* and *hb(y, z)*, then *hb(x, z)*.
