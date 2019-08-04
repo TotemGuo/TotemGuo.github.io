@@ -89,6 +89,7 @@ Java 中的类加载器大致可以分成两类，一类是系统提供的，另
          }
 
      }
+
 如 代码清单 3所示，com.example.Sample类的方法 setSample接受一个 java.lang.Object类型的参数，并且会把该参数强制转换成 com.example.Sample类型。测试 Java 类是否相同的代码如 代码清单 4所示。
 
 ###### 清单 4. 测试 Java 类是否相同
@@ -123,6 +124,7 @@ Java 中的类加载器大致可以分成两类，一类是系统提供的，另
         }
 
     }
+
 代码清单 4中使用了类 FileSystemClassLoader的两个不同实例来分别加载类 com.example.Sample，得到了两个不同的 java.lang.Class的实例，接着通过 newInstance()方法分别生成了两个类的对象 obj1和 obj2，最后通过 Java 的反射 API 在对象 obj1上调用方法 setSample，试图把对象 obj2赋值给 obj1内部的 instance对象。代码清单 4的运行结果如 代码清单 5所示。
 
 ###### 清单 5. 测试 Java 类是否相同的运行结果
