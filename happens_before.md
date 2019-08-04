@@ -1,6 +1,6 @@
 # Happens-before Order
 
-一直对happens-before的理解有些模糊，看了网上的一些解读也是似懂非懂。怎么办？直接看看The Java® Language Specification中是如何解释的，准确、简洁、权威。
+一直对happens-before的理解有些模糊，看了网上的一些解读也是似懂非懂。怎么办？直接看看The Java® Language Specification中是如何解释的，准确、权威。
 
 ### 17.4.5. Happens-before Order
 
