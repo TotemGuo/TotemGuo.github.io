@@ -43,8 +43,8 @@ Java 中的类加载器大致可以分成两类，一类是系统提供的，另
 代码清单 1演示了类加载器的树状组织结构。
 
 ###### 清单 1. 演示类加载器的树状组织结构
-`
-    public class ClassLoaderTree {
+`    
+     public class ClassLoaderTree {
 
         public static void main(String[] args) {
 
