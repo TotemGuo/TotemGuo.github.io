@@ -61,6 +61,15 @@ Java 中的类加载器大致可以分成两类，一类是系统提供的，另
         }
 
      }
+     
+每个 Java 类都维护着一个指向定义它的类加载器的引用，通过 getClassLoader()方法就可以获取到此引用。代码清单 1中通过递归调用 getParent()方法来输出全部的父类加载器。代码清单 1的运行结果如 代码清单 2所示。
+
+######  清单 2. 演示类加载器的树状组织结构的运行结果
+     sun.misc.Launcher$AppClassLoader@9304b1 
+     sun.misc.Launcher$ExtClassLoader@190d11
+如 代码清单 2所示，第一个输出的是 ClassLoaderTree类的类加载器，即系统类加载器。它是 sun.misc.Launcher$AppClassLoader类的实例；第二个输出的是扩展类加载器，是 sun.misc.Launcher$ExtClassLoader类的实例。需要注意的是这里并没有输出引导类加载器，这是由于有些 JDK 的实现对于父类加载器是引导类加载器的情况，getParent()方法返回 null。
+
+在了解了类加载器的树状组织结构之后，下面介绍类加载器的代理模式。
 
 ### 总结
 类加载器是 Java 语言的一个创新。它使得动态安装和更新软件组件成为可能。本文详细介绍了类加载器的相关话题，包括基本概念、代理模式、线程上下文类加载器、与 Web 容器和 OSGi 的关系等。开发人员在遇到 ClassNotFoundException和 NoClassDefFoundError等异常的时候，应该检查抛出异常的类的类加载器和当前线程的上下文类加载器，从中可以发现问题的所在。在开发自己的类加载器的时候，需要注意与已有的类加载器组织结构的协调。
