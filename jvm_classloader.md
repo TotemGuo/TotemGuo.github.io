@@ -43,23 +43,25 @@ Java 中的类加载器大致可以分成两类，一类是系统提供的，另
 代码清单 1演示了类加载器的树状组织结构。
 
 ###### 清单 1. 演示类加载器的树状组织结构
-`public class ClassLoaderTree {
+`
+public class ClassLoaderTree {
 
-        public static void main(String[] args) {
+   public static void main(String[] args) {
 
-            ClassLoader loader = ClassLoaderTree.class.getClassLoader();
+       ClassLoader loader = ClassLoaderTree.class.getClassLoader();
 
-            while (loader != null) {
+       while (loader != null) {
 
-                System.out.println(loader.toString());
+           System.out.println(loader.toString());
 
-                loader = loader.getParent();
+           loader = loader.getParent();
 
-            }
+       }
 
-        }
+   }
 
-    }`
+}
+`
 
 ### 总结
 类加载器是 Java 语言的一个创新。它使得动态安装和更新软件组件成为可能。本文详细介绍了类加载器的相关话题，包括基本概念、代理模式、线程上下文类加载器、与 Web 容器和 OSGi 的关系等。开发人员在遇到 ClassNotFoundException和 NoClassDefFoundError等异常的时候，应该检查抛出异常的类的类加载器和当前线程的上下文类加载器，从中可以发现问题的所在。在开发自己的类加载器的时候，需要注意与已有的类加载器组织结构的协调。
