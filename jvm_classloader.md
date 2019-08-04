@@ -44,23 +44,23 @@ Java 中的类加载器大致可以分成两类，一类是系统提供的，另
 
 ###### 清单 1. 演示类加载器的树状组织结构
 `
-public class ClassLoaderTree {
+    public class ClassLoaderTree {
 
-   public static void main(String[] args) {
+        public static void main(String[] args) {
 
-       ClassLoader loader = ClassLoaderTree.class.getClassLoader();
+            ClassLoader loader = ClassLoaderTree.class.getClassLoader();
 
-       while (loader != null) {
+            while (loader != null) {
 
-           System.out.println(loader.toString());
+                System.out.println(loader.toString());
 
-           loader = loader.getParent();
+                loader = loader.getParent();
 
-       }
+            }
 
-   }
+        }
 
-}
+    }
 `
 
 ### 总结
