@@ -30,8 +30,8 @@ the order in which these actions would be performed according to the intra-threa
 A set of actions is sequentially consistent if all actions occur in a total order (the execution order) that is
 consistent with program order, and further more, each read r of a variable v sees the value written by the write
 to v such that:  
-.  
-.  
+- w comes before r in the execution order, and
+- there is no other write w' such that w comes before w' and w' comes before r in the execution order.
 ### 17.4.5 Happens-before Order
 ......  
 A program is correctly synchronized if and only if all sequentially consistent executions are free of data races.  
