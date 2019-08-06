@@ -25,7 +25,9 @@ be performed in a single-threaded context, as defined in the rest of this specif
 定义的那样。  
 
 ### 17.4.1 
+
 ......  
+  
 Two accesses to (reads of or writes to) the same variable are said to be conflicting if at least one of the accesses is a write.
 
 ### 17.4.3 Programs and Program Order
@@ -35,7 +37,8 @@ A set of actions is sequentially consistent if all actions occur in a total orde
 consistent with program order, and further more, each read r of a variable v sees the value written by the write
 to v such that:  
 - w comes before r in the execution order, and
-- there is no other write w' such that w comes before w' and w' comes before r in the execution order.
+- there is no other write w' such that w comes before w' and w' comes before r in the execution order.  
+
 ### 17.4.5 Happens-before Order
 When a program contains two conflicting accesses (§17.4.1) that are not ordered by a happens-before relationship, it is said to contain a data race.  
   
