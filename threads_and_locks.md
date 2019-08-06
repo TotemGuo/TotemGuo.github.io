@@ -24,6 +24,10 @@ be performed in a single-threaded context, as defined in the rest of this specif
 为了决定一个execution中线程t的动作集合是否合法，我们会简单的评估线程t的实现，就像它在单线程上下文中执行，正如这篇规范剩余部分
 定义的那样。  
 
+### 17.4.1 
+......  
+Two accesses to (reads of or writes to) the same variable are said to be conflicting if at least one of the accesses is a write.
+
 ### 17.4.3 Programs and Program Order
 Among all the inter-thread actions performed by each thread t, the program order is a total order that reflects
 the order in which these actions would be performed according to the intra-thread semantics of t.  
@@ -33,10 +37,15 @@ to v such that:
 - w comes before r in the execution order, and
 - there is no other write w' such that w comes before w' and w' comes before r in the execution order.
 ### 17.4.5 Happens-before Order
+When a program contains two conflicting accesses (§17.4.1) that are not ordered by a happens-before relationship, it is said to contain a data race.  
+  
 ......  
+  
 A program is correctly synchronized if and only if all sequentially consistent executions are free of data races.  
 If a program is correctly synchronized, then all executions of the program will appear to be sequentially consistent.  
+  
 ......  
+  
 A set of actions A is happens-before consistent if for all reads r in A, where W(r) is the write action seen by
 r, it is not the case that either hb(r, W(r)) or there exist a write w in A such that w.v=r.v and hb(W(r), w)
 and hb(w, r).  
