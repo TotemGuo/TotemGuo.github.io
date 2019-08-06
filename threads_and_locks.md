@@ -24,7 +24,7 @@ be performed in a single-threaded context, as defined in the rest of this specif
 为了决定一个execution中线程t的动作集合是否合法，我们会简单的评估线程t的实现，就像它在单线程上下文中执行，正如这篇规范剩余部分
 定义的那样。  
 
-### 17.4.1 
+### 17.4.1 Shared Variables  
 
 ......  
   
