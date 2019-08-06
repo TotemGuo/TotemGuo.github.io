@@ -8,9 +8,9 @@ in an execution trace and checking that the write observed by that read is valid
 内存模型会检查每一个执行轨迹中的每一个读动作，并根据确定的规则检查这个读动作观察到的写动作是合理的。  
 The memory model describes possible behaviors of a program. An implementation is free to produce any code it
 likes, as long as all resulting executions of a program produce a result that can be predicted by the memory
-model.
+model.  
 This provides a great deal of freedom for the implementor to perform a myriad of code transformations, including
-the reordering of actions and removal of unnecessary synchronization.
+the reordering of actions and removal of unnecessary synchronization.  
 The memory model determines what values can be read at every point in the program. The actions of each thread
 in isolation must behave as governed by the semantics of that thread, with the exception that the values seen
 by each read are determined by the memory model. When we refer to this, we say that the program obeys intra-thread
@@ -26,17 +26,17 @@ be performed in a single-threaded context, as defined in the rest of this specif
 
 ### 17.4.3 Programs and Program Order
 Among all the inter-thread actions performed by each thread t, the program order is a total order that reflects
-the order in which these actions would be performed according to the intra-thread semantics of t.
+the order in which these actions would be performed according to the intra-thread semantics of t.  
 A set of actions is sequentially consistent if all actions occur in a total order (the execution order) that is
 consistent with program order, and further more, each read r of a variable v sees the value written by the write
-to v such that:
-.
-.
+to v such that:  
+.  
+.  
 ### 17.4.5 Happens-before Order
-......
-A program is correctly synchronized if and only if all sequentially consistent executions are free of data races.
-If a program is correctly synchronized, then all executions of the program will appear to be sequentially consistent.
-......
+......  
+A program is correctly synchronized if and only if all sequentially consistent executions are free of data races.  
+If a program is correctly synchronized, then all executions of the program will appear to be sequentially consistent.  
+......  
 A set of actions A is happens-before consistent if for all reads r in A, where W(r) is the write action seen by
 r, it is not the case that either hb(r, W(r)) or there exist a write w in A such that w.v=r.v and hb(W(r), w)
-and hb(w, r).
+and hb(w, r).  
