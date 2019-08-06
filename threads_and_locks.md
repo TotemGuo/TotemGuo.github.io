@@ -4,7 +4,7 @@
 ## 17.4 Memory Model
 A memory model describes, given a program and an execution trace of that program, whether the execution trace
 is a legal execution of the program. The Java programming language memory model works by examining each read
-in an execution trace and checking that the write observed by that read is valid according to certain rules.
+in an execution trace and checking that the write observed by that read is valid according to certain rules.  
 内存模型会检查每一个执行轨迹中的每一个读动作，并根据确定的规则检查这个读动作观察到的写动作是合理的。  
 The memory model describes possible behaviors of a program. An implementation is free to produce any code it
 likes, as long as all resulting executions of a program produce a result that can be predicted by the memory
