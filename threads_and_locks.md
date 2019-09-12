@@ -9,8 +9,8 @@ The behavior of threads, particularly when not correctly synchronized, can be co
 
 These semantics do not prescribe how a multithreaded program should be executed. Rather, they describe the behaviors that multithreaded programs are allowed to exhibit. Any execution strategy that generates only allowed behaviors is an acceptable execution strategy.
 
-译
-前面章节的大多数讨论只关注同一时刻只有一个语句或表达式执行时（也就是单线程场景下）代码的行为，而实际上，Java虚拟机支持很多线程同时执行。这些线程独立执行代码，而这些代码是对位于共享主内存中的值和对象进行操作的。对（多）线程的支持有多种方式，比如使用多硬件处理器，对单硬件处理器进行时间分片以及对多硬件处理器进行时间分片。
+译     
+前面章节的大多数讨论只关注同一时刻只有一个语句或表达式执行时（也就是单线程场景下）代码的行为，而实际上，Java虚拟机支持很多线程同时执行。这些线程独立执行代码，而这些代码是对位于共享主内存中的值和对象进行操作的。对（多）线程的支持有多种方式，比如使用多硬件处理器，对单硬件处理器进行时间分片以及对多硬件处理器进行时间分片。  
 
 线程是通过Thread类来表示的。用户创建线程的唯一方式是创建该类的一个对象；每一个线程与这样一个对象对应（关联）。
 
