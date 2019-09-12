@@ -1,6 +1,19 @@
 # Threads and Locks
 记得初学Java，对于Java中的线程和锁的相关内容理解的不够透彻，对涉及到并发的相关代码缺乏判断力，并不真切的知道代码背后的含义。市面上的一些书籍（各大技术网站推荐的某并发编程的艺术）并不是说不正确，但总感觉介绍的很晦涩。后来看到Java语言规范的原版，才发现很多书籍和网上文章就是在翻译规范，而且是选择性翻译，造成初学者对此一知半解，似懂非懂。**一知半解的知识，还不如不懂！**这里贴一下规范原版，并写一些自己的注解，欢迎交流。
 
+While most of the discussion in the preceding chapters is concerned only with the behavior of code as executed a single statement or expression at a time, that is, by a single thread, the Java Virtual Machine can support many threads of execution at once. These threads independently execute code that operates on values and objects residing in a shared main memory. Threads may be supported by having many hardware processors, by time-slicing a single hardware processor, or by time-slicing many hardware processors.
+
+Threads are represented by the Thread class. The only way for a user to create a thread is to create an object of this class; each thread is associated with such an object. A thread will start when the start() method is invoked on the corresponding Thread object.
+
+The behavior of threads, particularly when not correctly synchronized, can be confusing and counterintuitive. This chapter describes the semantics of multithreaded programs; it includes rules for which values may be seen by a read of shared memory that is updated by multiple threads. As the specification is similar to the memory models for different hardware architectures, these semantics are known as the Java programming language memory model. When no confusion can arise, we will simply refer to these rules as "the memory model".
+
+These semantics do not prescribe how a multithreaded program should be executed. Rather, they describe the behaviors that multithreaded programs are allowed to exhibit. Any execution strategy that generates only allowed behaviors is an acceptable execution strategy.
+
+译
+前面章节的大多数讨论只关注同一时刻只有一个语句或表达式执行时（也就是单线程场景下）代码的行为，而实际上，Java虚拟机支持很多线程同时执行。这些线程独立执行代码，而这些代码是对位于共享主内存中的值和对象进行操作的。对（多）线程的支持有多种方式，比如使用多硬件处理器，对单硬件处理器进行时间分片以及对多硬件处理器进行时间分片。
+
+线程是通过Thread类来表示的。用户创建线程的唯一方式是创建该类的一个对象；每一个线程与这样一个对象对应（关联）。
+
 ## 17.4 Memory Model
 A memory model describes, given a program and an execution trace of that program, whether the execution trace
 is a legal execution of the program. The Java programming language memory model works by examining each read
