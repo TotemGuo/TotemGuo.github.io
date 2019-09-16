@@ -43,23 +43,24 @@ A call of `wait(long millisecs)` with a parameter of zero, or a call of `wait(lo
 A thread returns normally from a wait if it returns without throwing an InterruptedException.
 
 Let thread `t` be the thread executing the wait method on object `m`, and let `n` be the number of lock actions by `t` on `m` that have not been matched by unlock actions. One of the following actions occurs:
-- If n is zero (i.e., thread t does not already possess the lock for target m), then an IllegalMonitorStateException is thrown.
-- If this is a timed wait and the nanosecs argument is not in the range of 0-999999 or the millisecs argument is negative, then an IllegalArgumentException is thrown.
-- If thread t is interrupted, then an InterruptedException is thrown and t's interruption status is set to false.
+- If `n` is zero (i.e., thread `t` does not already possess the lock for target `m`), then an `IllegalMonitorStateException` is thrown.
+- If this is a timed wait and the nanosecs argument is not in the range of 0-999999 or the millisecs argument is negative, then an `IllegalArgumentException` is thrown.
+- If thread `t` is interrupted, then an `InterruptedException` is thrown and `t`'s interruption status is set to false.
 - Otherwise, the following sequence occurs:
-    1. Thread t is added to the wait set of object m, and performs n unlock actions on m.  
-    2. Thread t does not execute any further instructions until it has been removed from m's wait set. The thread may be removed from the wait set due to any one of the following actions, and will resume sometime afterward:
-        - A notify action being performed on m in which t is selected for removal from the wait set.
-        - A notifyAll action being performed on m.
-        - An interrupt action being performed on t.
-        - If this is a timed wait, an internal action removing t from m's wait set that occurs after at least millisecs milliseconds plus nanosecs nanoseconds elapse since the beginning of this wait action.
+    1. Thread `t` is added to the wait set of object `m`, and performs `n` unlock actions on `m`.  
+    2. Thread `t` does not execute any further instructions until it has been removed from `m`'s wait set. The thread may be removed from the wait set due to any one of the following actions, and will resume sometime afterward:
+        - A notify action being performed on `m` in which `t` is selected for removal from the wait set.
+        - A notifyAll action being performed on `m`.
+        - An interrupt action being performed on `t`.
+        - If this is a timed wait, an internal action removing `t` from `m`'s wait set that occurs after at least millisecs milliseconds plus nanosecs nanoseconds elapse since the beginning of this wait action.
         - An internal action by the implementation. Implementations are permitted, although not encouraged, to perform "spurious wake-ups", that is, to remove threads from wait sets and thus enable resumption without explicit instructions to do so.
-       > Notice that this provision necessitates the Java coding practice of using wait only within loops that terminate only when some logical condition that the thread is waiting for holds.
+        
+       > *Notice that this provision necessitates the Java coding practice of using wait only within loops that terminate only when some logical condition that the thread is waiting for holds.*
 
        Each thread must determine an order over the events that could cause it to be removed from a wait set. That order does not have to be consistent with other orderings, but the thread must behave as though those events occurred in that order.  
-       For example, if a thread t is in the wait set for m, and then both an interrupt of t and a notification of m occur, there must be an order over these events. If the interrupt is deemed to have occurred first, then t will eventually return from wait by throwing InterruptedException, and some other thread in the wait set for m (if any exist at the time of the notification) must receive the notification. If the notification is deemed to have occurred first, then t will eventually return normally from wait with an interrupt still pending.  
-    3. Thread t performs n lock actions on m.  
-    4. If thread t was removed from m's wait set in step 2 due to an interrupt, then t's interruption status is set to false and the wait method throws InterruptedException.
+       For example, if a thread `t` is in the wait set for `m`, and then both an interrupt of t and a notification of `m` occur, there must be an order over these events. If the interrupt is deemed to have occurred first, then `t` will eventually return from wait by throwing `InterruptedException`, and some other thread in the wait set for `m` (if any exist at the time of the notification) must receive the notification. If the notification is deemed to have occurred first, then `t` will eventually return normally from wait with an interrupt still pending.  
+    3. Thread `t` performs `n` lock actions on `m`.  
+    4. If thread `t` was removed from `m`'s wait set in step 2 due to an interrupt, then `t`'s interruption status is set to false and the wait method throws `InterruptedException`.
 ### 17.2.2 Notification
 ### 17.2.3 Interruptions
 ### 17.2.4 Interactions of Waits, Notification, and Interruption
