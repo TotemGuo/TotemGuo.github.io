@@ -14,7 +14,9 @@ These semantics do not prescribe how a multithreaded program should be executed.
 
 线程是通过Thread类来表示的。用户创建线程的唯一方式是创建该类的一个对象；每一个线程与这样一个对象对应（关联）。当对应Thread对象上的start()方法被触发时，线程就开启了。    
 
-如果没有经过正确的同步，线程的行为会令人感到困惑，甚至违反直觉。本章节描述多线程程序的语义；它包含了对
+如果没有经过正确的同步，线程的行为会令人感到困惑，甚至违反直觉。本章节描述多线程程序的语义；它包含了（变量）值可能被共享内存的读取操作可见的一些规则，这些共享内存是被多线程更新的。由于本篇说明跟针对不同硬件架构的内存模型很相似，这些语义又被成为Java编程语言内存模型。在没有歧义的情况下，我们称这些语义为内存模型。
+
+这些语义并没有规定一个多线程程序应该怎样被执行。相反的，它们描述了多线程程序被允许呈现出的一些行为。只生成被允许的行为的任何执行策略都是一个可接受的执行策略。
 
 ## 17.4 Memory Model
 A memory model describes, given a program and an execution trace of that program, whether the execution trace
