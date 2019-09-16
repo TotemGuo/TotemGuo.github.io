@@ -1,6 +1,6 @@
-# Threads and Locks
+# 前面
 记得初学Java，对于Java中的线程和锁的相关内容理解的不够透彻，对涉及到并发的相关代码缺乏判断力，并不真切的知道代码背后的含义。市面上的一些书籍（各大技术网站推荐的某并发编程的艺术）并不是说不正确，但总感觉介绍的很晦涩。后来看到Java语言规范的原版，才发现很多书籍和网上文章就是在翻译规范，而且是选择性翻译，造成初学者对此一知半解，似懂非懂。**一知半解的知识，还不如不懂！**这里贴一下规范原版，并写一些自己的注解，欢迎交流。
-
+# Chapter 17. Threads and Locks
 While most of the discussion in the preceding chapters is concerned only with the behavior of code as executed a single statement or expression at a time, that is, by a single thread, the Java Virtual Machine can support many threads of execution at once. These threads independently execute code that operates on values and objects residing in a shared main memory. Threads may be supported by having many hardware processors, by time-slicing a single hardware processor, or by time-slicing many hardware processors.
 
 Threads are represented by the Thread class. The only way for a user to create a thread is to create an object of this class; each thread is associated with such an object. A thread will start when the start() method is invoked on the corresponding Thread object.
