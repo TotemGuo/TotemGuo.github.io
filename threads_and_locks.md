@@ -41,7 +41,10 @@ Thread.sleep causes the currently executing thread to sleep (temporarily cease e
 
 It is important to note that neither Thread.sleep nor Thread.yield have any synchronization semantics. In particular, the compiler does not have to flush writes cached in registers out to shared memory before a call to Thread.sleep or Thread.yield, nor does the compiler have to reload values cached in registers after a call to Thread.sleep or Thread.yield.
 
-
+> For example, in the following (broken) code fragment, assume that this.done is a non-volatile boolean field:
+>     while (!this.done)
+>       Thread.sleep(1000);
+> The compiler is free to read the field this.done just once, and reuse the cached value in each execution of the loop. This would mean that the loop would never terminate, even if another thread changed the value of this.done.
 
 ## 17.4 Memory Model
 A memory model describes, given a program and an execution trace of that program, whether the execution trace
