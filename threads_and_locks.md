@@ -43,8 +43,8 @@ It is important to note that neither Thread.sleep nor Thread.yield have any sync
 
 > For example, in the following (broken) code fragment, assume that `this.done` is a non-volatile boolean field:  
 >
->    while (!this.done)  
->      Thread.sleep(1000);  
+>     while (!this.done)  
+>       Thread.sleep(1000);  
 >
 > The compiler is free to read the field `this.done` just once, and reuse the cached value in each execution of the loop. This would mean that the loop would never terminate, even if another thread changed the value of `this.done`.
 
