@@ -1,5 +1,6 @@
 # 一次设置HTTP隧道代理的问题排查
 ##问题
+
 通过用户名和密码使用VIP代理时，指定了代理域名，代理端口，用户名，密码，但是代理仍然返回“HTTP/1.1 407 Proxy Authentication Required”。代码如下：
 
 认证器
@@ -19,6 +20,7 @@
             return new PasswordAuthentication(user, pwwd.toCharArray());
         }
     }
+    
 使用方法
 
         ......
@@ -43,9 +45,10 @@
         }catch (InternalError e){
             log.error("ip check - connect to {}:{} error", ip, port, e);
         }
-        
         ......
+        
 ##分析
+
 首先，这里的使用代理的方式是为Socket指定代理，不同于一般的为HTTP请求设置代理。返回407的直接原因是我们自定义的认证器没有被触发。那么，先试一下为HTTP请求设置代理时，认证器会不会被触发。
 
     @Test
@@ -126,4 +129,5 @@
 https://bugs.openjdk.java.net/browse/JDK-8210814
 
 ##总结
+
 反常的问题看源码，总能找到你要的答案。这次认识了一下jvm的这个选项：jdk.http.auth.tunneling.disabledSchemes。
