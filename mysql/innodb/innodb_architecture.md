@@ -1,0 +1,20 @@
+# InnoDB架构
+- InnoDB内存结构
+  - Buffer Pool(缓冲池)
+  - Change Buffer
+  - Adaptive Hash Index(一致性哈希索引)
+  - Log Buffer(日志缓冲)
+- InnoDB磁盘结构
+  - 表
+  - 索引
+  - 表空间
+    - 系统表空间
+      - InnoDB数据字典
+      - 双写缓冲
+      - "撤销"日志(Undo Logs)
+      - ChangeBuffer
+    - "一表一文件"表空间
+    - 通用表空间
+    - "撤销"表空间(Undo Tablespaces)
+    - 临时表空间
+  - "重做"日志(Redo Log)
