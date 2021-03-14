@@ -4,7 +4,7 @@
 # 文章分类
 
 - [Java](https://totemguo.github.io/java.html)
-- Mysql
+- [MySQL](https://totemguo.github.io/mysql/mysql.html)
 - Redis
 - [Spring](https://totemguo.github.io/spring.html)
 - Linux
