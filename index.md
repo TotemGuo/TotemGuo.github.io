@@ -6,5 +6,4 @@
 - [Java](https://totemguo.github.io/java/java.html)
 - [MySQL](https://totemguo.github.io/mysql/mysql.html)
 - Redis
-- [Spring](https://totemguo.github.io/spring.html)
 - Linux
