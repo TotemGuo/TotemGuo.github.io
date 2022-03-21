@@ -159,3 +159,5 @@ target/*
 /${sys:app.logdir}/
 *rebel.xml
 
+public/*
+
