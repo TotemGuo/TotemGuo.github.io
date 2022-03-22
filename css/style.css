@@ -148,6 +148,7 @@ a
     padding-bottom: 48px;
     margin-bottom: 48px;
     border-bottom: 1px dashed var(--line-2);
+    width:100%;
 }
 .post-title
 {
