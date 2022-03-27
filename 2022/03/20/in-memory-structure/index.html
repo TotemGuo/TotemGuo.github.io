@@ -57,7 +57,7 @@
 <li>在头部，最近被访问的”较新”的数据页的列表</li>
 <li>在尾部，”不那么新”的数据页列表</li>
 </ul>
-<p><img src="/assets/images/innodb-buffer-pool-list.png" alt="Buffer Pool List"></p>
+<p><img src="/2022/03/20/in-memory-structure/innodb-buffer-pool-list.png" alt="Buffer Pool List"></p>
 <p>这个算法使得经常被使用的数据页保持在”新”子列表中。而”老”的子列表则包含了不那么经常使用的数据页；这些数据页是<br>被淘汰的候选页。</p>
 <p>默认地，算法执行如下：</p>
 <ul>
