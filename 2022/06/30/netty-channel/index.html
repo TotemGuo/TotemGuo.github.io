@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+    <link rel="alternate icon" type="image/png" href="/img/favicon.png">
+    <title>Zero to Hero | 耐心专注 做到极致</title>
+    
+<link rel="stylesheet" href="/css/reset.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/css/markdown.css">
+
+    
+<link rel="stylesheet" href="/css/fonts.css">
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+    <body>
+        <div class="paper">
+            <div class="paper-main">
+                
+                    <div class="post-header">
+    <a class="logo" href="/">Zero to Hero</a>
+    <a class="go-home" href="/">
+        <svg width="8" height="14" viewBox="0 0 8 14">
+            <path d="M7 1L1 7l6 6" stroke="#000" stroke-width="2" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>
+</div>
+                
+                <div class="post-main">
+
+    
+        <div class="post-main-title">
+            Netty Channel
+        </div>
+        <div class="post-meta">
+            2022-06-30
+        </div>
+    
+
+    <div class="post-md">
+        <p>##Channel简介</p>
+<p>Netty中的Channel，是对网络通信信道的抽象。官方解释如下：</p>
+<blockquote>
+<p>A nexus to a network socket or a component which is capable of I&#x2F;O operations such as read, write, connect, and bind.</p>
+</blockquote>
+<p>大致含义是：能够执行read、write、connect和bind操作网络套接字或组件的链接。也就是说，Channel的两头都是网络套接字。</p>
+<p>Netty中Channel相关接口如下：</p>
+<p><img src="/2022/06/30/netty-channel/channel_arch.png" alt="Netty中的Channel"></p>
+<p>首先可以看到Channel继承了ChannelOutboundInvoker接口。bound，边界之意。ChannelOutboundInvoker，顾名思义，对Channel与外部进行交互的操作进行了抽象。<br>接口中方法归纳如下：</p>
+<pre><code>//将channel绑定到本地的SocketAddress
+ChannelFuture bind(SocketAddress localAddress);
+//将channle连接到远程的SocketAddress
+ChannelFuture connect(SocketAddress remoteAddress);
+//将channel绑定到本地的SocketAddress,同时将channle连接到远程的SocketAddress
+ChannelFuture connect(SocketAddress remoteAddress, SocketAddress localAddress);
+//断开channel与远端的连接
+ChannelFuture disconnect();
+//关闭channle
+ChannelFuture close();
+</code></pre>
+<p>每一个Channel都会指定一个ChannelPipeline，并在创建新Channel时自动创建。为了进一步介绍Channel，我们需要先了解一下ChannelPipeline。</p>
+<p>对于ChannelPipeline，官方解释如下：</p>
+<blockquote>
+<p>A list of ChannelHandlers which handles or intercepts inbound events and outbound operations of a Channel. ChannelPipeline implements an advanced form of the Intercepting Filter pattern to give a user full control over how an event is handled and how the ChannelHandlers in a pipeline interact with each other.</p>
+</blockquote>
+<p>大致含义是：处理或拦截一个Channel的inbound事件和outbound操作的一系列ChannelHandler。ChannelPipeline实现了 <a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/intercepting-filter.html">Intercepting Filter</a> 模式的高级形式，让用户完全控制如何处理事件以及管道中的ChannelHandler如何相互交互。</p>
+<p>##ChannelPipeline</p>
+
+    </div>
+
+</div>
+                <div class="footer">
+    <span>Copyright © 2022 Zero to Hero</span>
+    <span>Theme Designed By <a target="_blank" href="https://zheli.design/one-paper">這Li</a></span>
+</div>
+
+
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+
+<script src="/js/highlight.min.js"></script>
+
+
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+
+            </div>
+        </div>
+    </body>
+</html>

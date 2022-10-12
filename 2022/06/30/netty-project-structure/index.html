@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+    <link rel="alternate icon" type="image/png" href="/img/favicon.png">
+    <title>Zero to Hero | 耐心专注 做到极致</title>
+    
+<link rel="stylesheet" href="/css/reset.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/css/markdown.css">
+
+    
+<link rel="stylesheet" href="/css/fonts.css">
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+    <body>
+        <div class="paper">
+            <div class="paper-main">
+                
+                    <div class="post-header">
+    <a class="logo" href="/">Zero to Hero</a>
+    <a class="go-home" href="/">
+        <svg width="8" height="14" viewBox="0 0 8 14">
+            <path d="M7 1L1 7l6 6" stroke="#000" stroke-width="2" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>
+</div>
+                
+                <div class="post-main">
+
+    
+        <div class="post-main-title">
+            Netty项目结构
+        </div>
+        <div class="post-meta">
+            2022-06-30
+        </div>
+    
+
+    <div class="post-md">
+        <p>#maven模块关系<br>oss-parent[pom]</p>
+<ul>
+<li>netty-parent[pom]<ul>
+<li>netty-netty-all</li>
+<li>netty-dev-tools</li>
+<li>netty-common</li>
+<li>netty-buffer</li>
+<li>netty-codec</li>
+<li>netty-codec-dns</li>
+<li>netty-codec-haproxy</li>
+<li>netty-codec-http</li>
+<li>netty-codec-http2</li>
+<li>netty-codec-memcache</li>
+<li>netty-codec-mqtt</li>
+<li>netty-codec-redis</li>
+<li>netty-codec-smtp</li>
+<li>netty-codec-socks</li>
+<li>netty-codec-stomp</li>
+<li>netty-codec-xml</li>
+<li>netty-resolver</li>
+<li>netty-resolver-dns</li>
+<li>netty-resolver-dns-classes-macos</li>
+<li>netty-resolver-dns-native-macos</li>
+<li>netty-transport</li>
+<li>netty-transport-native-unix-common-tests</li>
+<li>netty-transport-native-unix-common</li>
+<li>netty-transport-classes-epoll</li>
+<li>netty-transport-native-epoll</li>
+<li>netty-transport-classes-kqueue</li>
+<li>netty-transport-native-kqueue</li>
+<li>netty-transport-rxtx</li>
+<li>netty-transport-sctp</li>
+<li>netty-transport-udt</li>
+<li>netty-handler</li>
+<li>netty-handler-proxy</li>
+<li>netty-example</li>
+<li>netty-testsuite</li>
+<li>netty-testsuite-autobahn</li>
+<li>netty-testsuite-http2</li>
+<li>netty-testsuite-osgi</li>
+<li>netty-testsuite-shading</li>
+<li>netty-testsuite-native</li>
+<li>netty-testsuite-native-image</li>
+<li>netty-testsuite-native-image-client</li>
+<li>netty-testsuite-native-image-client-runtime-init</li>
+<li>netty-transport-blockhound-tests</li>
+<li>netty-microbench</li>
+<li>netty-bom[pom]</li>
+</ul>
+</li>
+</ul>
+<p>#pom继承关系<br>oss-parent[pom]</p>
+<ul>
+<li>netty-bom[pom]</li>
+<li>netty-parent[pom]<ul>
+<li>netty-netty-all</li>
+<li>netty-dev-tools</li>
+<li>netty-common</li>
+<li>netty-buffer</li>
+<li>netty-codec</li>
+<li>netty-codec-dns</li>
+<li>netty-codec-haproxy</li>
+<li>netty-codec-http</li>
+<li>netty-codec-http2</li>
+<li>netty-codec-memcache</li>
+<li>netty-codec-mqtt</li>
+<li>netty-codec-redis</li>
+<li>netty-codec-smtp</li>
+<li>netty-codec-socks</li>
+<li>netty-codec-stomp</li>
+<li>netty-codec-xml</li>
+<li>netty-resolver</li>
+<li>netty-resolver-dns</li>
+<li>netty-resolver-dns-classes-macos</li>
+<li>netty-resolver-dns-native-macos</li>
+<li>netty-transport</li>
+<li>netty-transport-native-unix-common-tests</li>
+<li>netty-transport-native-unix-common</li>
+<li>netty-transport-classes-epoll</li>
+<li>netty-transport-native-epoll</li>
+<li>netty-transport-classes-kqueue</li>
+<li>netty-transport-native-kqueue</li>
+<li>netty-transport-rxtx</li>
+<li>netty-transport-sctp</li>
+<li>netty-transport-udt</li>
+<li>netty-handler</li>
+<li>netty-handler-proxy</li>
+<li>netty-example</li>
+<li>netty-testsuite</li>
+<li>netty-testsuite-autobahn</li>
+<li>netty-testsuite-http2</li>
+<li>netty-testsuite-osgi</li>
+<li>netty-testsuite-shading</li>
+<li>netty-testsuite-native</li>
+<li>netty-testsuite-native-image</li>
+<li>netty-testsuite-native-image-client</li>
+<li>netty-testsuite-native-image-client-runtime-init</li>
+<li>netty-transport-blockhound-tests</li>
+<li>netty-microbench</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+</div>
+                <div class="footer">
+    <span>Copyright © 2022 Zero to Hero</span>
+    <span>Theme Designed By <a target="_blank" href="https://zheli.design/one-paper">這Li</a></span>
+</div>
+
+
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+
+<script src="/js/highlight.min.js"></script>
+
+
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+
+            </div>
+        </div>
+    </body>
+</html>
