@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+    <link rel="alternate icon" type="image/png" href="/img/favicon.png">
+    <title>Zero to Hero | 耐心专注 做到极致</title>
+    
+<link rel="stylesheet" href="/css/reset.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/css/markdown.css">
+
+    
+<link rel="stylesheet" href="/css/fonts.css">
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+    <body>
+        <div class="paper">
+            <div class="paper-main">
+                
+                    <div class="post-header">
+    <a class="logo" href="/">Zero to Hero</a>
+    <a class="go-home" href="/">
+        <svg width="8" height="14" viewBox="0 0 8 14">
+            <path d="M7 1L1 7l6 6" stroke="#000" stroke-width="2" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>
+</div>
+                
+                <div class="post-main">
+
+    
+        <div class="post-main-title">
+            Linux Epoll 与 Java NIO的底层实现
+        </div>
+        <div class="post-meta">
+            2022-10-10
+        </div>
+    
+
+    <div class="post-md">
+        <h2 id="Epoll"><a href="#Epoll" class="headerlink" title="Epoll"></a>Epoll</h2><p>在Linux系统中，实现IO多路复用的机制有select、poll、epoll，其中epoll性能表现最为优秀。这里的复用指的是对进程的复用。</p>
+<h3 id="使用示例和epoll核心API详解"><a href="#使用示例和epoll核心API详解" class="headerlink" title="使用示例和epoll核心API详解"></a>使用示例和epoll核心API详解</h3><p>我们先从一个使用示例出发，接着探究epoll如何在底层做了支持。epoll使用示例：</p>
+<pre><code>       #define MAX_EVENTS 10
+       struct epoll_event ev, events[MAX_EVENTS];
+       int listen_sock, conn_sock, nfds, epollfd;
+
+       /* Code to set up listening socket, &#39;listen_sock&#39;,
+          (socket(), bind(), listen()) omitted. */
+
+       epollfd = epoll_create1(0);
+       if (epollfd == -1) &#123;
+           perror(&quot;epoll_create1&quot;);
+           exit(EXIT_FAILURE);
+       &#125;
+
+       ev.events = EPOLLIN;
+       ev.data.fd = listen_sock;
+       if (epoll_ctl(epollfd, EPOLL_CTL_ADD, listen_sock, &amp;ev) == -1) &#123;
+           perror(&quot;epoll_ctl: listen_sock&quot;);
+           exit(EXIT_FAILURE);
+       &#125;
+
+       for (;;) &#123;
+           nfds = epoll_wait(epollfd, events, MAX_EVENTS, -1);
+           if (nfds == -1) &#123;
+               perror(&quot;epoll_wait&quot;);
+               exit(EXIT_FAILURE);
+           &#125;
+
+           for (n = 0; n &lt; nfds; ++n) &#123;
+               if (events[n].data.fd == listen_sock) &#123;
+                   conn_sock = accept(listen_sock,
+                                      (struct sockaddr *) &amp;addr, &amp;addrlen);
+                   if (conn_sock == -1) &#123;
+                       perror(&quot;accept&quot;);
+                       exit(EXIT_FAILURE);
+                   &#125;
+                   setnonblocking(conn_sock);
+                   ev.events = EPOLLIN | EPOLLET;
+                   ev.data.fd = conn_sock;
+                   if (epoll_ctl(epollfd, EPOLL_CTL_ADD, conn_sock,
+                               &amp;ev) == -1) &#123;
+                       perror(&quot;epoll_ctl: conn_sock&quot;);
+                       exit(EXIT_FAILURE);
+                   &#125;
+               &#125; else &#123;
+                   do_use_fd(events[n].data.fd);
+               &#125;
+           &#125;
+       &#125;
+</code></pre>
+<p>上面是官方手册里给出的一个使用示例，简单做一下解读：</p>
+<ul>
+<li>获取要监听的socket</li>
+</ul>
+<p>要使用epoll，我们首先要有一个用来监听（接收新连接）的socket，listen_sock， 这个socket一般通过socket()、bind()、listen()等一系列系统调用得到。</p>
+<ul>
+<li>int epoll_create(int size) 和 int epoll_create1(int flags)</li>
+</ul>
+<p>epoll_create函数的size参数在Linux 2.6.8之后已经没有用了，但是必须大于0。epoll_create1函数对epoll_create进行了扩展。当flags&#x3D;0,即当调用epoll_create1(0)时，<br>等同于调用epoll_create。flags传入其他值（如flags &#x3D; EPOLL_CLOEXEC）时，会有不同的功能。</p>
+<p>epoll_create函数创建了一个epoll对象，返回一个指向epoll对象的文件描述符。这个文件描述符（示例代码中的epollfd）很重要，是使用者与epoll机制交互的重要数据。</p>
+<ul>
+<li>int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)</li>
+</ul>
+<p>增加、修改、删除epoll对象的interest list，为目标文件描述符fd执行op操作，返回0表示成功，-1表示失败。op可以为以下值之一:</p>
+<p>EPOLL_CTL_ADD</p>
+<p>在epoll的interest list中增加一个条目，这个条目包含目标文件描述符fd和在event参数中的一些设置。</p>
+<p>EPOLL_CTL_MOD</p>
+<p>修改interest list中fd的设置置。</p>
+<p>EPOLL_CTL_DEL</p>
+<p>将fd从interest list中移除,此时event参数没有用。</p>
+<p>结构体epoll_event的定义如下：</p>
+<pre><code>    typedef union epoll_data &#123;
+    void        *ptr;
+    int          fd;
+    uint32_t     u32;
+    uint64_t     u64;
+    &#125; epoll_data_t;
+
+    struct epoll_event &#123;
+        uint32_t     events;      /* Epoll events */
+        epoll_data_t data;        /* User data variable */
+    &#125;;
+</code></pre>
+<p>epoll_event的events成员，可以为以下值之一:</p>
+<p>EPOLLIN</p>
+<p>EPOLLOUT</p>
+<p>EPOLLRDHUP</p>
+<p>EPOLLPRI</p>
+<p>EPOLLERR</p>
+<p>EPOLLHUP</p>
+<p>EPOLLET</p>
+<p>EPOLLONESHOT</p>
+<p>EPOLLWAKEUP</p>
+<p>EPOLLEXCLUSIVE</p>
+<p>这些事件就不详细介绍了，具体可以参考<a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man2/epoll_ctl.2.html">epoll_ctl的官方手册</a>。</p>
+<ul>
+<li>epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout)</li>
+</ul>
+<p>等待epfd指向的epoll对象上的events事件发生。epoll_wait会阻塞调用进程直到以下事件发生:</p>
+<p>文件描述符投递了一个事件过来</p>
+<p>调用被一个signal handler中断</p>
+<p>超时</p>
+<p>timeout&#x3D;-1时，epoll_wait会一直等待；timeout&#x3D;0时，epoll_wait立即返回。</p>
+<h3 id="内核如何实现epoll"><a href="#内核如何实现epoll" class="headerlink" title="内核如何实现epoll"></a>内核如何实现epoll</h3><h4 id="从accept说起"><a href="#从accept说起" class="headerlink" title="从accept说起"></a>从accept说起</h4><p>当accept之后，服务端进程会创建一个socket出来，用于与客户端通信，然后把socket放到当前进程的打开文件列表中。socket定义在include&#x2F;linux&#x2F;net.h中,</p>
+<pre><code>struct socket &#123;
+    socket_state        state;
+    short            type;
+    unsigned long        flags;
+    struct file        *file;
+    struct sock        *sk;
+    const struct proto_ops    *ops;
+    struct socket_wq    wq;
+&#125;;
+</code></pre>
+<p>socket的源码非常复杂，这里我们只关注跟epoll机制紧密相关的一些数据结构。如下图：</p>
+<p>可以看到,accept后，会生成一个socket，这个socket关联了一个等待队列和数据ready时的回调函数(sock_def_readable)。</p>
+<h4 id="epoll-create做了什么"><a href="#epoll-create做了什么" class="headerlink" title="epoll_create做了什么"></a>epoll_create做了什么</h4><p>当用户进程调用了epoll_create后，内核会创建一个struct eventpoll的内核对象，同样放到当前进程的打开文件列表中。eventpoll定义在fs&#x2F;eventpoll.c中，</p>
+<pre><code>struct eventpoll &#123;
+    struct mutex mtx;
+    /* Wait queue used by sys_epoll_wait() */
+    wait_queue_head_t wq;
+    /* Wait queue used by file-&gt;poll() */
+    wait_queue_head_t poll_wait;
+    /* List of ready file descriptors */
+    struct list_head rdllist;
+    /* Lock which protects rdllist and ovflist */
+    rwlock_t lock;
+    /* RB tree root used to store monitored fd structs */
+    struct rb_root_cached rbr;
+    /**省略 */
+&#125;
+</code></pre>
+<p>epoll_create主要是进行eventpoll对象的初始化工作，这其中就包含了wq、rdllist、rbr成员。</p>
+<h4 id="epoll-ctl做了什么"><a href="#epoll-ctl做了什么" class="headerlink" title="epoll_ctl做了什么"></a>epoll_ctl做了什么</h4><p>epoll_ctl是epoll机制的关键实现。直观的来理解，epoll_ctl执行完成后，内核中epoll相关的对象得以逐步串联起来。epoll_ctl完成的功能主要有：</p>
+<ul>
+<li>分配一个红黑树节点对象(struct epitem)</li>
+<li>在socket的等待队列中加入一个元素，该元素中有个关键数据-回调函数ep_poll_callback。在socket数据准备好时，调用该函数执行epoll相关的操作。</li>
+<li>将epitem加入红黑树</li>
+</ul>
+<p>下面这张图是笔者阅读源码后总结的，描述了epoll_ctl执行的一些关键动作。可能画的有些随意，如果读者能从中获取到以下两个信息：</p>
+<ul>
+<li>epitem及关联的数据结构</li>
+<li>socket的等待队列如何构成的</li>
+</ul>
+<p>那么，就能比较容易的理解epoll_ctl的功能。</p>
+<p>如果读者觉得上面这张图过于复杂和不好理解，下面这张概念性的图也描述了epoll_ctl的功能。</p>
+<h2 id="Java-NIO实现"><a href="#Java-NIO实现" class="headerlink" title="Java NIO实现"></a>Java NIO实现</h2><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li>epoll官方手册：<a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man7/epoll.7.html">https://man7.org/linux/man-pages/man7/epoll.7.html</a></li>
+</ul>
+
+    </div>
+
+</div>
+                <div class="footer">
+    <span>Copyright © 2022 Zero to Hero</span>
+    <span>Theme Designed By <a target="_blank" href="https://zheli.design/one-paper">這Li</a></span>
+</div>
+
+
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+
+<script src="/js/highlight.min.js"></script>
+
+
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+
+            </div>
+        </div>
+    </body>
+</html>

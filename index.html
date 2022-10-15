@@ -38,14 +38,27 @@
                 <div class="post-list">
     
     <div class="post">
+        <a class="post-title" href="/2022/10/10/epoll-nio/">Linux Epoll 与 Java NIO的底层实现</a>
+        <div class="post-except">
+            Epoll在Linux系统中，实现IO多路复用的机制有select、poll、epoll，其中epoll性能表现最为优秀。这里的复用指的是对进程的复用。
+使用示例和epoll核心API详解我们先从一个使用示例出发，接着探究epoll如何在底层做了支持。epoll使用示例：
+       #define MAX_EVENTS 10
+       struct epoll_event ev, events[MAX_EVENTS];
+       int listen_sock, 
+            <a class="read-more" href="/2022/10/10/epoll-nio/"> ... </a>
+        </div>
+        <div class="post-date">2022.10.10</div>
+    </div>
+    
+    <div class="post">
         <a class="post-title" href="/2022/06/30/netty-channel/">Netty Channel</a>
         <div class="post-except">
-            ##Channel简介
-Netty中的Channel，是对网络通信信道的抽象。官方解释如下：
+            Channel简介Netty中的Channel，是对网络通信信道的抽象。官方解释如下：
 
 A nexus to a network socket or a component which is capable of I&#x2F;O operations such as read, write, connect, and bind.
 
-大致含义是：能够执行read、write、connect和bind操作网络套接字或组件的链接。也就是说，Channel的两头都是网络套接
+大致含义是：能够执行read、write、connect和bind操作网络套接字或组件的链接。也就是说，Channel的两头都是网络套接字。
+
             <a class="read-more" href="/2022/06/30/netty-channel/"> ... </a>
         </div>
         <div class="post-date">2022.06.30</div>
